@@ -6,33 +6,50 @@ import (
 	"strings"
 )
 
+func capitalizeFirst(s string) string {
+	if s == "" {
+		return ""
+	}
+	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
+}
+
 func main() {
 	contenu, err := os.ReadFile("input.txt")
 	if err != nil {
-		fmt.Printf("errur lors de la lecture du fichier : %v\n", err)
+		fmt.Printf("Erreur lors de la lecture du fichier : %v\n", err)
+		return
 	}
-	fmt.Println(string(contenu))
 
-	err = os.WriteFile("output.txt", contenu, 0644)
-
-	mots := strings.Fields(texte)
-	resultat := []string{}
+	mots := strings.Fields(string(contenu))
+	resultat := make([]string, 0, len(mots))
 
 	for _, mot := range mots {
-
-		if mot == "(up)" {
+		switch mot {
+		case "(up)":
 			if len(resultat) > 0 {
-				i := len(resultat) - 1
-				resultat[i] = strings.ToUpper(resultat)
-
+				last := len(resultat) - 1
+				resultat[last] = strings.ToUpper(resultat[last])
 			}
-		} else if mot == "(low)" {
+		case "(low)":
 			if len(resultat) > 0 {
-				i := len(resultat) - 1
-				resultat[i] = strings.ToLower(resultat)
+				last := len(resultat) - 1
+				resultat[last] = strings.ToLower(resultat[last])
 			}
-		}else if mot == "(cap)"{
-			if len(resultat)
+		case "(cap)":
+			if len(resultat) > 0 {
+				last := len(resultat) - 1
+				resultat[last] = capitalizeFirst(resultat[last])
+			}
+		default:
+			resultat = append(resultat, mot)
 		}
 	}
+
+	texteSortie := strings.Join(resultat, " ")
+	if err := os.WriteFile("output.txt", []byte(texteSortie), 0644); err != nil {
+		fmt.Printf("Erreur lors de l'écriture du fichier : %v\n", err)
+		return
+	}
+
+	fmt.Println(texteSortie)
 }
