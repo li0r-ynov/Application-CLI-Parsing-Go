@@ -53,6 +53,21 @@ func main() {
 				return
 			}
 			resultat[last] = strconv.FormatUint(nombre, 10)
+
+		case "(bin)":
+			if len(resultat) == 0 {
+				fmt.Println("Erreur : aucun nombre avant (bin)")
+				return
+			}
+
+			last := len(resultat) - 1
+			nombre, err := strconv.ParseUint(resultat[last], 2, 64)
+			if err != nil {
+				fmt.Println("Erreur de conversion binaire :", err)
+				return
+				}
+			resultat[last] = strconv.FormatUint(nombre, 10)
+			
 		default:
 			resultat = append(resultat, mot)
 		}

@@ -35,18 +35,3 @@ func hex() {
 
 	fmt.Println(strings.Join(resultat, " "))
 }
-
-	/* texte := "bonjour, test numéro 1"
-	mots := strings.Fields(texte)
-	fmt.Println(mots)
-
-	var hex []string
-	for _, mot := range mots {
-		for _, r := range mot {
-			hex = append(hex, fmt.Sprintf("%X", r))
-		}
-	}
-
-	fmt.Println(strings.Join(hex, " "))
-	*/
-
