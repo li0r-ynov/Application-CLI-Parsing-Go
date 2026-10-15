@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -20,8 +21,8 @@ func main() {
 		return
 	}
 
+	resultat := []string{}
 	mots := strings.Fields(string(contenu))
-	resultat := make([]string, 0, len(mots))
 
 	for _, mot := range mots {
 		switch mot {
@@ -40,6 +41,18 @@ func main() {
 				last := len(resultat) - 1
 				resultat[last] = capitalizeFirst(resultat[last])
 			}
+		case "(hex)":
+			if len(resultat) == 0 {
+				fmt.Println("Erreur: aucun nombre avant (hex)")
+				return
+			}
+			last := len(resultat) - 1
+			nombre, err := strconv.ParseUint(resultat[last], 16, 64)
+			if err != nil {
+				fmt.Println("Erreur de conversion hexadécimale :", err)
+				return
+			}
+			resultat[last] = strconv.FormatUint(nombre, 10)
 		default:
 			resultat = append(resultat, mot)
 		}
