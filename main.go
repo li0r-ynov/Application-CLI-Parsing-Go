@@ -1,3 +1,4 @@
+
 package main
 
 import (
@@ -11,7 +12,59 @@ func capitalizeFirst(s string) string {
 	if s == "" {
 		return ""
 	}
+
 	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
+}
+
+func corrigerTexte(texte string) (string, error) {
+	resultat := []string{}
+	mots := strings.Fields(texte)
+
+	for _, mot := range mots {
+		switch mot {
+		case "(up)":
+			if len(resultat) > 0 {
+				last := len(resultat) - 1
+				resultat[last] = strings.ToUpper(resultat[last])
+			}
+
+		case "(low)":
+			if len(resultat) > 0 {
+				last := len(resultat) - 1
+				resultat[last] = strings.ToLower(resultat[last])
+			}
+
+		case "(cap)":
+			if len(resultat) > 0 {
+				last := len(resultat) - 1
+				resultat[last] = capitalizeFirst(resultat[last])
+			}
+
+		case "(hex)", "(bin)":
+			if len(resultat) == 0 {
+				return "", fmt.Errorf("aucun nombre avant %s", mot)
+			}
+
+			last := len(resultat) - 1
+			base := 16
+
+			if mot == "(bin)" {
+				base = 2
+			}
+
+			nombre, err := strconv.ParseUint(resultat[last], base, 64)
+			if err != nil {
+				return "", fmt.Errorf("erreur de conversion pour %s : %w", mot, err)
+			}
+
+			resultat[last] = strconv.FormatUint(nombre, 10)
+
+		default:
+			resultat = append(resultat, mot)
+		}
+	}
+
+	return strings.Join(resultat, " "), nil
 }
 
 func main() {
@@ -21,59 +74,12 @@ func main() {
 		return
 	}
 
-	resultat := []string{}
-	mots := strings.Fields(string(contenu))
-
-	for _, mot := range mots {
-		switch mot {
-		case "(up)":
-			if len(resultat) > 0 {
-				last := len(resultat) - 1
-				resultat[last] = strings.ToUpper(resultat[last])
-			}
-		case "(low)":
-			if len(resultat) > 0 {
-				last := len(resultat) - 1
-				resultat[last] = strings.ToLower(resultat[last])
-			}
-		case "(cap)":
-			if len(resultat) > 0 {
-				last := len(resultat) - 1
-				resultat[last] = capitalizeFirst(resultat[last])
-			}
-		case "(hex)":
-			if len(resultat) == 0 {
-				fmt.Println("Erreur: aucun nombre avant (hex)")
-				return
-			}
-			last := len(resultat) - 1
-			nombre, err := strconv.ParseUint(resultat[last], 16, 64)
-			if err != nil {
-				fmt.Println("Erreur de conversion hexadécimale :", err)
-				return
-			}
-			resultat[last] = strconv.FormatUint(nombre, 10)
-
-		case "(bin)":
-			if len(resultat) == 0 {
-				fmt.Println("Erreur : aucun nombre avant (bin)")
-				return
-			}
-
-			last := len(resultat) - 1
-			nombre, err := strconv.ParseUint(resultat[last], 2, 64)
-			if err != nil {
-				fmt.Println("Erreur de conversion binaire :", err)
-				return
-				}
-			resultat[last] = strconv.FormatUint(nombre, 10)
-			
-		default:
-			resultat = append(resultat, mot)
-		}
+	texteSortie, err := corrigerTexte(string(contenu))
+	if err != nil {
+		fmt.Printf("Erreur lors de la correction : %v\n", err)
+		return
 	}
 
-	texteSortie := strings.Join(resultat, " ")
 	if err := os.WriteFile("output.txt", []byte(texteSortie), 0644); err != nil {
 		fmt.Printf("Erreur lors de l'écriture du fichier : %v\n", err)
 		return
