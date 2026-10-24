@@ -1,7 +1,20 @@
 package main
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
-func up(mot string) string {
-	return strings.ToUpper(mot)
+func up(mots []string, nombre int) ([]string, error) {
+	if nombre > len(mots) {
+		return nil, fmt.Errorf("pas assez de mots avant (up, %d)", nombre)
+	}
+
+	debut := len(mots) - nombre
+
+	for i := debut; i < len(mots); i++ {
+		mots[i] = strings.ToUpper(mots[i])
+	}
+
+	return mots, nil
 }

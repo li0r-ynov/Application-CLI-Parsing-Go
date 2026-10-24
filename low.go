@@ -1,7 +1,17 @@
 package main
 
-import "strings"
+import (
+	"strings"
+	"fmt"
+)
 
-func low(mot string) string {
-	return strings.ToLower(mot)
+func low(mots []string, nombre int) ([]string, error) {
+	if nombre > len(mots) {
+		return nil, fmt.Errorf("pas assez de mots avant (low, %d)", nombre)
+	}
+	
+	for i := len(mots) - nombre; i < len(mots); i++ {
+		mots[i] = strings.ToLower(mots[i])
+	}
+	return mots, nil
 }

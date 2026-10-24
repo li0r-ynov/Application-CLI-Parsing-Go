@@ -21,6 +21,34 @@ func corrigerTexte(texte string) (string, error) {
 	mots := strings.Fields(texte)
 
 	for _, mot := range mots {
+		if strings.Contains(mot, ",") {
+			parties := strings.Split(strings.Trim(mot, "()"), ",")
+			if len(parties) != 2 {
+				return "", fmt.Errorf("commande invalide : %s", mot)
+			}
+
+			action := strings.TrimSpace(parties[0])
+			nombre, err := strconv.Atoi(strings.TrimSpace(parties[1]))
+			if err != nil || nombre <= 0 {
+				return "", fmt.Errorf("nombre invalide : %s", mot)
+			}
+
+			switch action {
+			case "up":
+				resultat, err = up(resultat, nombre)
+			case "low":
+				resultat, err = low(resultat, nombre)
+			case "cap":
+				resultat, err = cap(resultat, nombre)
+			default:
+				return "", fmt.Errorf("commande inconnue : %s", mot)
+			}
+			if err != nil {
+				return "", err
+			}
+			continue
+		}
+
 		switch mot {
 		case "(up)":
 			if len(resultat) > 0 {
@@ -64,7 +92,7 @@ func corrigerTexte(texte string) (string, error) {
 		}
 	}
 
-	return strings.Join(resultat, " "), nil
+	return CorrigerPonctuation(strings.Join(resultat, " ")), nil
 }
 
 func main() {
