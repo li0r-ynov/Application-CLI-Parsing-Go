@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func bin() {
+func Bin() {
 	texte := "It has been 10 (bin) years"
 	mots := strings.Fields(texte)
 

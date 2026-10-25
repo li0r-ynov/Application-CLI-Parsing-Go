@@ -38,20 +38,15 @@ func corrigerGuillemets(texte string) string {
 
 	for i, caractere := range caracteres {
 		if caractere == '\'' {
-			if !entreGuillemets {
-				for len(resultat) > 0 && resultat[len(resultat)-1] == ' ' {
-					resultat = resultat[:len(resultat)-1]
-				}
-			}
 			resultat = append(resultat, caractere)
 			entreGuillemets = !entreGuillemets
 			continue
 		}
 
 		if caractere == ' ' {
-			apresGuillemetOuvrant := i > 0 && caracteres[i-1] == '\''
-			avantGuillemetFermant := entreGuillemets && i+1 < len(caracteres) && caracteres[i+1] == '\''
-			if apresGuillemetOuvrant || avantGuillemetFermant {
+			apresGuillemet := i > 0 && caracteres[i-1] == '\''
+			avantGuillemetFermer := entreGuillemets && i+1 < len(caracteres) && caracteres[i+1] == '\''
+			if apresGuillemet || avantGuillemetFermer {
 				continue
 			}
 		}

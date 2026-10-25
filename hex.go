@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func hex() {
+func Hex() {
 	texte := "1E (hex) files were added"
 	mots := strings.Fields(texte)
 

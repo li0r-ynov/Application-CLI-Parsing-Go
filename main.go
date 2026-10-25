@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -18,10 +17,13 @@ func capitalizeFirst(s string) string {
 
 func corrigerTexte(texte string) (string, error) {
 	resultat := []string{}
+	texte = strings.ReplaceAll(texte, "(up, ", "(up,")
+	texte = strings.ReplaceAll(texte, "(low, ", "(low,")
+	texte = strings.ReplaceAll(texte, "(cap, ", "(cap,")
 	mots := strings.Fields(texte)
 
 	for _, mot := range mots {
-		if strings.Contains(mot, ",") {
+		if strings.HasPrefix(mot, "(up,") || strings.HasPrefix(mot, "(low,") || strings.HasPrefix(mot, "(cap,") {
 			parties := strings.Split(strings.Trim(mot, "()"), ",")
 			if len(parties) != 2 {
 				return "", fmt.Errorf("commande invalide : %s", mot)
