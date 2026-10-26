@@ -1,1 +1,9 @@
-it (cap) was the best of times, it was the worst of times (up) , it was the age of wisdom, it
+yesterday , i met a amazing engineer near an old airport ... he said: ' 1E (hex) years ago , i was just a beginner ! ' 
+now , I can convert 1010 (bin) into a decimal number ; that means 10 (bin) becomes 2 .
+this is REALLY difficult (low) , but THIS example is so exciting (up, 3) !
+we visited the brooklyn bridge (cap) and the golden gate bridge (cap, 3) before leaving .
+the result was 2A (hex) , 1111 (bin) and 7 (hex) ; everything worked !? really !
+he whispered: ' i am an expert in artificial intelligence ' , then shouted: ' WATCH OUT ! '
+a user wrote a useful algorithm , another wrote a unusual explanation , and a honest developer fixed it .
+please convert 2F (hex) and 1101 (bin) , then make THIS sentence lower (low, 4) .
+finally ... we tested punctuation ,multiple commas ,and strange groups !!? amazing ; isn't it ?

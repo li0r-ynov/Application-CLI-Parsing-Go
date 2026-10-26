@@ -98,7 +98,7 @@ func corrigerTexte(texte string) (string, error) {
 }
 
 func main() {
-	contenu, err := os.ReadFile("input.txt")
+	contenu, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Printf("Erreur lors de la lecture du fichier : %v\n", err)
 		return
@@ -110,7 +110,7 @@ func main() {
 		return
 	}
 
-	if err := os.WriteFile("output.txt", []byte(texteSortie), 0644); err != nil {
+	if err := os.WriteFile(os.Args[2], []byte(texteSortie), 0644); err != nil {
 		fmt.Printf("Erreur lors de l'écriture du fichier : %v\n", err)
 		return
 	}
